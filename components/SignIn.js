@@ -1,19 +1,101 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated } from 'react-native'
 import React, {useState,useRef,useEffect} from 'react'
 import Input from './Input';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const SignIn = () => {
+const SignIn = ({backBtnAnim, setBackBtnSignInFnc}) => {
+
+    useEffect(() => {
+        setBackBtnSignInFnc(() => goOut)
+    }, [])
 
     const [passwordShown, setPasswordShown] = useState(false)
     const passwordInput = useRef(null);
 
+    const MARGIN = Dimensions.get('window').width/2;
+
+    const containerAnim = useRef(new Animated.Value(0)).current;
+
+    const formAnim = useRef(new Animated.Value(0)).current;
+    const titleAnim = useRef(new Animated.Value(0)).current;
+    
+    const textAnim = useRef(new Animated.Value(-MARGIN)).current;
+
+    const goOut = () => {
+        Animated.parallel([
+            Animated.timing(containerAnim, {
+                toValue: MARGIN,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+            Animated.timing(formAnim, {
+                toValue: MARGIN*2,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+            Animated.timing(titleAnim, {
+                toValue: -MARGIN*.35,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+            Animated.timing(textAnim, {
+                toValue: 0,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+            Animated.timing(backBtnAnim, {
+                toValue: MARGIN*1.5,
+                duration: 1000,
+                useNativeDriver: true,
+            }),
+        ]).start()
+        setTimeout(() => {
+            Animated.parallel([
+                Animated.timing(containerAnim, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(formAnim, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(titleAnim, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(textAnim, {
+                    toValue: -MARGIN,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(backBtnAnim, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+            ]).start()
+        }, 3000)
+    }
+
+    
+    
   return (
-    <View>
+    <Animated.View style={[{position:'relative'}, {transform:[{translateX:containerAnim}]}]}>
       <View style={styles.signIn}>
-        <Text style={styles.containerHeader}>Sign In</Text>
-        <View style={styles.signInForm}>
+        <Animated.Text style={[styles.containerHeader,{transform:[{translateX:titleAnim}]}]}>Sign In</Animated.Text>
+        <Animated.View style={[styles.textContainer, {transform:[{translateX:textAnim}]}]}>
+            <Text style={styles.text}>
+                Returning?
+            </Text>
+            <Text style={styles.text}>
+                Just Sign in to resume what you were doing
+            </Text>
+        </Animated.View>
+        <Animated.View style={[styles.signInForm, {transform:[{translateX:formAnim}]}]}>
             <Input label={'E-mail'} inputProperties={{
                 autoCorrect:false,
                 autoComplete:'email',
@@ -46,12 +128,12 @@ const SignIn = () => {
             <TouchableOpacity style={{alignSelf:'flex-end',marginTop:5,marginRight:5}}>
                 <Text style={{color:'white'}}>Forgot password?</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.submitBtn}>
+            <TouchableOpacity style={styles.submitBtn} onPress={() => {goOut()}}>
                 <AntDesign name='arrowright' color='#2bc0ff' size={30} />
             </TouchableOpacity>
-        </View>
+        </Animated.View>
       </View>
-    </View>
+    </Animated.View>
   )
 }
 
@@ -83,5 +165,18 @@ const styles = StyleSheet.create({
         marginTop:15,
         justifyContent:'center',
         alignItems:'center'
+    },
+    text: {
+        color:'white',
+        fontSize:15,
+        marginVertical:5,
+    },
+    textContainer: {
+        width:100,
+        marginVertical:5,
+        alignSelf:'flex-start',
+        position:'absolute',
+        top:70,
+        marginLeft:35,
     }
 })
