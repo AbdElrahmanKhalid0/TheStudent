@@ -1,6 +1,7 @@
 import Home from './components/Home';
 import Block from './components/Block';
 import Subject from './components/Subject';
+import Lecture from './components/Lecture';
 import {SafeAreaView,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -15,6 +16,7 @@ export default function App() {
           <Stack.Screen name="Blocks" component={Home}  options={{ headerTitle: () => (<Text style={{fontSize:30, fontWeight:'900'}}>Blocks</Text>)}}/>
           <Stack.Screen name="Block" component={Block} />
           <Stack.Screen name="Subject" component={Subject} />
+          <Stack.Screen name="Lecture" component={Lecture} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

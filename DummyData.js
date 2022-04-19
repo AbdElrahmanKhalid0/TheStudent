@@ -5,10 +5,14 @@ const Data =  {
             index: 1,
             subjects:[
                 {
-                    name:"Microbiology"
+                    name:"Microbiology",
+                    nick:"micro",
+                    lecturesNum:25,
                 },
                 {
-                    name:"Parasitology"
+                    name:"Parasitology",
+                    nick:"para",
+                    lecturesNum: 6,
                 }
             ]
         },
