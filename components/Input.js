@@ -1,10 +1,10 @@
 import { View, Text, TextInput, Dimensions, StyleSheet } from 'react-native'
 import React, {useEffect,useImperativeHandle, useRef} from 'react'
 
-const Input = ({label,inputProperties,labelStyles,rightBtn,inputStyles,containerStyles,fieldRef}) => {
+const Input = ({label,inputProperties,labelStyles,rightBtn,inputStyles,containerStyles,fieldRef,mainColor}) => {
   return (
     <View style={[styles.container,containerStyles]}>
-        <View style={[styles.label,labelStyles]}>
+        <View style={[styles.label,labelStyles,{backgroundColor:mainColor}]}>
             <Text style={{color:'white', fontSize:14}}>{label}</Text>
         </View>
       <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
         position:'relative',
         left:10,
         top:8,
-        backgroundColor: '#2bc0ff',
         zIndex:3,
         width:50,
         alignItems:'center',

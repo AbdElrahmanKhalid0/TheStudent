@@ -1,25 +1,55 @@
-import { View, Text, StyleSheet, TouchableOpacity, Animated} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, KeyboardAvoidingView} from 'react-native';
 import React, {useRef, useState} from 'react';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
 
 const SignPage = () => {
 
-    const backBtnAnim = useRef(new Animated.Value(0)).current;
+    const MARGIN = Dimensions.get('window').width/2;
+
     const [backBtnSignInFnc, setBackBtnSignInFnc] = useState();
+    const [backBtnSignUpFnc, setBackBtnSignUpFnc] = useState();
+    
+
+    const welcomeAnim = useRef(new Animated.Value(0)).current;
 
   return (
-    <View style={styles.container}>
-        <Animated.View style={{transform:[{translateX:backBtnAnim}]}}>
-            <TouchableOpacity style={styles.backBtn} onPress={backBtnSignInFnc}>
-                <AntDesign name='arrowleft' color='white' size={30} />
-            </TouchableOpacity>
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
+        <Animated.View style={[styles.backBtnsContainer,{transform:[{translateX:welcomeAnim}]}]}>
+            <View style={styles.backBtnContainer}>
+                <TouchableOpacity style={[styles.signUpBackBtn,styles.backBtn]} onPress={backBtnSignUpFnc}>
+                    <AntDesign name='arrowleft' color='white' size={30} />
+                </TouchableOpacity>
+            </View>
+            <View style={styles.backBtnContainer}></View>
+            <View style={styles.backBtnContainer}>
+                <TouchableOpacity style={[styles.signInBackBtn,styles.backBtn]} onPress={backBtnSignInFnc}>
+                    <AntDesign name='arrowleft' color='white' size={30} />
+                </TouchableOpacity>
+            </View>
         </Animated.View>
-      <Text style={styles.welcome}>Hello!</Text>
-      <SignIn backBtnAnim={backBtnAnim} setBackBtnSignInFnc={setBackBtnSignInFnc}/>
-    </View>
+
+
+        <Animated.View style={[styles.welcomeContainer,{transform:[{translateX:welcomeAnim}]}]}>
+            <View style={styles.welcomeChildContainer}>
+                <Text style={styles.welcome}>Welcome!</Text>
+            </View>
+            <View style={styles.welcomeChildContainer}>
+                <Text style={styles.welcome}>Hello!</Text>
+            </View>
+            <View style={styles.welcomeChildContainer}>
+                <Text style={styles.welcome}>Welcome Back!</Text>
+            </View>
+        </Animated.View>
+
+        <View style={{flexDirection:'row'}}>
+            {/* <SignIn setBackBtnSignInFnc={setBackBtnSignInFnc} welcomeAnim={welcomeAnim}/> */}
+            <SignUp setBackBtnSignUpFnc={setBackBtnSignUpFnc} welcomeAnim={welcomeAnim}/>    
+        </View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -38,12 +68,33 @@ const styles = StyleSheet.create({
         marginVertical:20,
     },
     backBtn: {
-        backgroundColor: '#2bc0ff',
         width:50,
         height: 50,
         borderRadius:50,
         justifyContent:'center',
         alignItems:'center',
         marginVertical: 15,
-    }
+    },
+    signInBackBtn: {
+        backgroundColor: '#2bc0ff',
+    },
+    signUpBackBtn: {
+        backgroundColor: '#2b75ff',
+    },
+    welcomeContainer: {
+        alignItems: 'center',
+        flexDirection:'row',
+    },
+    welcomeChildContainer: {
+        width: Dimensions.get('window').width,
+        alignItems:'center',
+    },
+    backBtnsContainer: {
+        alignItems: 'center',
+        flexDirection:'row',
+    },
+    backBtnContainer: {
+        width: Dimensions.get('window').width,
+        alignItems:'center',
+    },
 })

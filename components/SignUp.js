@@ -1,41 +1,45 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated, TouchableWithoutFeedback, Image, Keyboard } from 'react-native'
 import React, {useState,useRef,useEffect} from 'react'
 import Input from './Input';
-import Entypo from 'react-native-vector-icons/Entypo';
+import UploadImage from './UploadImage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
-const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
+const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
 
     useEffect(() => {
-        setBackBtnSignInFnc(() => goOut)
+        setBackBtnSignUpFnc(() => goOut)
     }, [])
 
-    const [passwordShown, setPasswordShown] = useState(false)
-    const passwordInput = useRef(null);
+    const phoneInput = useRef(null);
+    const emailInput = useRef(null);
 
     const MARGIN = Dimensions.get('window').width/2;
 
-    const containerAnim = useRef(new Animated.Value(MARGIN)).current;
-    const formAnim = useRef(new Animated.Value(MARGIN*2)).current;
-    const titleAnim = useRef(new Animated.Value(-MARGIN*.35)).current;
+    const containerAnim = useRef(new Animated.Value(-MARGIN)).current;
+    const formAnim = useRef(new Animated.Value(-MARGIN*2)).current;
+    const titleAnim = useRef(new Animated.Value(MARGIN*.35)).current;
     const textAnim = useRef(new Animated.Value(0)).current;
 
     const [isIn, setIn] = useState(false);
 
+    const [personalImage, setPersonalImage] = useState();
+    const [collegeCardImage, setCollegeCardImage] = useState();
+    
     const goOut = () => {
         Animated.parallel([
             Animated.timing(containerAnim, {
-                toValue: MARGIN,
+                toValue: -MARGIN,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(formAnim, {
-                toValue: MARGIN*2,
+                toValue: -MARGIN*2,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(titleAnim, {
-                toValue: -MARGIN*.35,
+                toValue: MARGIN*.35,
                 duration: 1000,
                 useNativeDriver: true,
             }),
@@ -50,6 +54,7 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
                 useNativeDriver: true,
             }),
         ]).start()
+        Keyboard.dismiss();
     }
 
     const comeIn = () => {
@@ -65,17 +70,17 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
                 useNativeDriver: true,
             }),
             Animated.timing(titleAnim, {
-                toValue: 0,
+                toValue:0,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(textAnim, {
-                toValue: -MARGIN,
+                toValue: MARGIN,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(welcomeAnim, {
-                toValue: -MARGIN*2,
+                toValue: MARGIN*2,
                 duration: 1000,
                 useNativeDriver: true,
             }),
@@ -90,55 +95,65 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
             <TouchableWithoutFeedback onPress={() => {
                 if (!isIn) {
                     comeIn();
+                } else {
+                    Keyboard.dismiss()
                 }
                 setIn(!isIn);
             }}>
-                <View style={styles.signIn}>
-                    <Animated.Text style={[styles.containerHeader,{transform:[{translateX:titleAnim}]}]}>Sign In</Animated.Text>
+                <View style={styles.signUp}>
+                    
+                    <Animated.Text style={[styles.containerHeader,{transform:[{translateX:titleAnim}]}]}>Sign Up</Animated.Text>
+
                     <Animated.View style={[styles.textContainer, {transform:[{translateX:textAnim}]}]}>
                         <Text style={styles.text}>
-                            Returning?
+                            New here?
                         </Text>
                         <Text style={styles.text}>
-                            Just Sign in to resume what you were doing
+                            Don't worry just sign up to gain access to this amzing app
                         </Text>
                     </Animated.View>
+
                     <Animated.View style={[styles.signInForm, {transform:[{translateX:formAnim}]}]}>
+
+                        <Input label={'Name'} inputProperties={{
+                            autoCorrect:false,
+                            autoComplete:'name',
+                            returnKeyType:'next',
+                            textContentType:'name',
+                            onSubmitEditing:() => {emailInput.current.focus()}
+                        }} mainColor='#007aff' />
+
                         <Input label={'E-mail'} inputProperties={{
                             autoCorrect:false,
                             autoComplete:'email',
                             autoCapitalize:false,
                             returnKeyType:'next',
                             textContentType:'emailAddress',
-                            onSubmitEditing:() => {passwordInput.current.focus()}
-                        }} mainColor='#2bc0ff'/>
-                        <Input label={'Password'} inputProperties={{
+                            onSubmitEditing:() => {phoneInput.current.focus()}
+                        }} fieldRef={emailInput}
+                        mainColor='#007aff'/>
+
+                        <Input label={'Phone Number'} inputProperties={{
                             autoCorrect:false,
-                            autoComplete:'password-new',
+                            autoComplete:'tel',
                             autoCapitalize:false,
-                            returnKeyType:'go',
-                            textContentType:'newPassword',
-                            secureTextEntry:!passwordShown,
-                            keyboardType:'visible-password',
-                        }} labelStyles={{width:70}}
-                        inputStyles={{paddingRight:40}}
-                        fieldRef={passwordInput}
-                        rightBtn={
-                            (<View style={{
-                                position:'absolute',
-                                right:10,
-                                }}>
-                                    <TouchableOpacity onPress={() => {setPasswordShown(!passwordShown)}}>
-                                        <Entypo name={passwordShown ? 'eye-with-line' : 'eye'} color={'white'} size={20}/>
-                                    </TouchableOpacity>
-                            </View>)
-                        } mainColor='#2bc0ff'/>
-                        <TouchableOpacity style={{alignSelf:'flex-end',marginTop:5,marginRight:5}}>
-                            <Text style={{color:'white'}}>Forgot password?</Text>
-                        </TouchableOpacity>
+                            returnKeyType:'next',
+                            textContentType:'telephoneNumber',
+                            keyboardType:'phone-pad',
+                            onSubmitEditing:() => {console.log('submitted')}
+                        }} fieldRef={phoneInput}
+                        labelStyles={{width:105}}
+                        mainColor='#007aff'/>
+
+                        <View style={styles.imageInputContainer}>
+                            <UploadImage text='Personal Image' setImage={setPersonalImage} image={personalImage}/>
+                            <UploadImage text='College Card Image' setImage={setCollegeCardImage} image={collegeCardImage}/>
+                        </View>
+
                         <TouchableOpacity style={styles.submitBtn}>
                             <AntDesign name='arrowright' color='#2bc0ff' size={30} />
                         </TouchableOpacity>
+
                     </Animated.View>
                 </View>
             </TouchableWithoutFeedback>
@@ -147,17 +162,18 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
   )
 }
 
-export default SignIn;
+export default SignUp;
 
 const styles = StyleSheet.create({
-    signIn: {
-        height:300,
+    signUp: {
+        height:440,
         width:Dimensions.get('screen').width *.75,
-        backgroundColor: '#2bc0ff',
+        backgroundColor: '#007aff',
         borderRadius:20,
         marginTop:20,
         alignItems:'center',
-        padding:10
+        justifyContent:'center',
+        padding:10,
     },
     containerHeader: {
         color:'white',
@@ -165,6 +181,7 @@ const styles = StyleSheet.create({
     },
     signInForm: {
         marginTop: 10,
+        alignItems:'center'
     },
     submitBtn: {
         width:50,
@@ -180,13 +197,20 @@ const styles = StyleSheet.create({
         color:'white',
         fontSize:15,
         marginVertical:5,
+        textAlign:'right',
     },
     textContainer: {
         width:100,
         marginVertical:5,
-        alignSelf:'flex-start',
+        alignSelf:'flex-end',
         position:'absolute',
         top:70,
-        marginLeft:35,
+        right:30,
+    },
+    imageInputContainer: {
+        width:Dimensions.get('screen').width *.63,
+        flexDirection:'row',
+        marginVertical:10,
+        justifyContent:'space-between',
     }
 })
