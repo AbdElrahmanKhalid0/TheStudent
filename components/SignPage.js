@@ -46,8 +46,8 @@ const SignPage = () => {
         </Animated.View>
 
         <View style={{flexDirection:'row'}}>
-            {/* <SignIn setBackBtnSignInFnc={setBackBtnSignInFnc} welcomeAnim={welcomeAnim}/> */}
-            <SignUp setBackBtnSignUpFnc={setBackBtnSignUpFnc} welcomeAnim={welcomeAnim}/>    
+            <SignIn setBackBtnSignInFnc={setBackBtnSignInFnc} welcomeAnim={welcomeAnim}/>
+            {/* <SignUp setBackBtnSignUpFnc={setBackBtnSignUpFnc} welcomeAnim={welcomeAnim}/>     */}
         </View>
     </KeyboardAvoidingView>
   )

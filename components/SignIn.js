@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated, TouchableWithoutFeedback, Keyboard, Platform } from 'react-native'
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity, Animated, TouchableWithoutFeedback, Keyboard } from 'react-native'
 import React, {useState,useRef,useEffect} from 'react'
 import Input from './Input';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -50,6 +50,7 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
                 useNativeDriver: true,
             }),
         ]).start()
+        Keyboard.dismiss();
     }
 
     const comeIn = () => {
@@ -90,6 +91,8 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
             <TouchableWithoutFeedback onPress={() => {
                 if (!isIn) {
                     comeIn();
+                } else {
+                    Keyboard.dismiss();
                 }
                 setIn(!isIn);
             }}>
@@ -104,20 +107,23 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
                         </Text>
                     </Animated.View>
                     <Animated.View style={[styles.signInForm, {transform:[{translateX:formAnim}]}]}>
-                        <Input label={'E-mail'} inputProperties={{
+
+                        <Input label={'Username'} inputProperties={{
                             autoCorrect:false,
-                            autoComplete:'email',
+                            autoComplete:'username',
                             autoCapitalize:false,
                             returnKeyType:'next',
-                            textContentType:'emailAddress',
+                            textContentType:'username',
                             onSubmitEditing:() => {passwordInput.current.focus()}
-                        }} mainColor='#2bc0ff'/>
+                        }} labelStyles={{width:75}}
+                        mainColor='#2bc0ff'/>
+
                         <Input label={'Password'} inputProperties={{
                             autoCorrect:false,
-                            autoComplete:'password-new',
+                            autoComplete:'password',
                             autoCapitalize:false,
                             returnKeyType:'go',
-                            textContentType:'newPassword',
+                            textContentType:'Password',
                             secureTextEntry:!passwordShown,
                             keyboardType:'visible-password',
                         }} labelStyles={{width:70}}
@@ -133,6 +139,7 @@ const SignIn = ({setBackBtnSignInFnc, welcomeAnim}) => {
                                     </TouchableOpacity>
                             </View>)
                         } mainColor='#2bc0ff'/>
+
                         <TouchableOpacity style={{alignSelf:'flex-end',marginTop:5,marginRight:5}}>
                             <Text style={{color:'white'}}>Forgot password?</Text>
                         </TouchableOpacity>
