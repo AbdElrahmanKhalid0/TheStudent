@@ -13,6 +13,37 @@ const SignPage = () => {
     const [backBtnSignInFnc, setBackBtnSignInFnc] = useState();
     const [backBtnSignUpFnc, setBackBtnSignUpFnc] = useState();
     
+    const signUpContainerAnim = useRef(new Animated.Value(-MARGIN*.2)).current;
+    const signInContainerAnim = useRef(new Animated.Value(MARGIN*.2)).current;
+
+    const signUpHideFnc = () => {
+        Animated.timing(signUpContainerAnim, {
+            toValue: -MARGIN,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
+    const signInHideFnc = () => {
+        Animated.timing(signInContainerAnim, {
+            toValue: MARGIN,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
+    const signUpSemiComeFnc = () => {
+        Animated.timing(signUpContainerAnim, {
+            toValue: -MARGIN*.2,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
+    const signInSemiComeFnc = () => {
+        Animated.timing(signInContainerAnim, {
+            toValue: MARGIN*.2,
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
 
     const welcomeAnim = useRef(new Animated.Value(0)).current;
 
@@ -46,8 +77,28 @@ const SignPage = () => {
         </Animated.View>
 
         <View style={{flexDirection:'row'}}>
-            <SignIn setBackBtnSignInFnc={setBackBtnSignInFnc} welcomeAnim={welcomeAnim}/>
-            {/* <SignUp setBackBtnSignUpFnc={setBackBtnSignUpFnc} welcomeAnim={welcomeAnim}/>     */}
+            <SignUp 
+                setBackBtnSignUpFnc={setBackBtnSignUpFnc}
+                welcomeAnim={welcomeAnim}
+                hideOther={() => {
+                    signInHideFnc();
+                }}
+                semiComeOther={() => {
+                    signInSemiComeFnc();
+                }}
+                containerAnim={signUpContainerAnim}
+            />  
+            <SignIn 
+                setBackBtnSignInFnc={setBackBtnSignInFnc}
+                welcomeAnim={welcomeAnim}
+                hideOther={() => {
+                    signUpHideFnc();
+                }}
+                semiComeOther={() => {
+                    signUpSemiComeFnc();
+                }}
+                containerAnim={signInContainerAnim}
+            />
         </View>
     </KeyboardAvoidingView>
   )

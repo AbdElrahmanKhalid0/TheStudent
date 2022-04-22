@@ -3,12 +3,14 @@ import React, {useState,useRef,useEffect} from 'react'
 import Input from './Input';
 import UploadImage from './UploadImage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { backgroundColor } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 
-const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
+const SignUp = ({setBackBtnSignUpFnc, welcomeAnim, style, hideOther, semiComeOther, containerAnim}) => {
 
     useEffect(() => {
-        setBackBtnSignUpFnc(() => goOut)
+        setBackBtnSignUpFnc(() => () => {
+            goOut();
+            setIn(false)
+        })
     }, [])
 
     const phoneInput = useRef(null);
@@ -16,10 +18,22 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
 
     const MARGIN = Dimensions.get('window').width/2;
 
-    const containerAnim = useRef(new Animated.Value(-MARGIN)).current;
-    const formAnim = useRef(new Animated.Value(-MARGIN*2)).current;
-    const titleAnim = useRef(new Animated.Value(MARGIN*.35)).current;
-    const textAnim = useRef(new Animated.Value(0)).current;
+    const STARTANIMCONSTANTS = {
+        container: -MARGIN*.2,
+        form: -MARGIN*2,
+        title:MARGIN*.35,
+        text:0,
+    }
+    const FINISHANIMCONSTANTS = {
+        container: MARGIN*.75,
+        form: 0,
+        title:0,
+        text:MARGIN,
+    }
+
+    const formAnim = useRef(new Animated.Value(STARTANIMCONSTANTS.form)).current;
+    const titleAnim = useRef(new Animated.Value(STARTANIMCONSTANTS.title)).current;
+    const textAnim = useRef(new Animated.Value(STARTANIMCONSTANTS.text)).current;
 
     const [isIn, setIn] = useState(false);
 
@@ -29,22 +43,22 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
     const goOut = () => {
         Animated.parallel([
             Animated.timing(containerAnim, {
-                toValue: -MARGIN,
+                toValue: STARTANIMCONSTANTS.container,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(formAnim, {
-                toValue: -MARGIN*2,
+                toValue: STARTANIMCONSTANTS.form,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(titleAnim, {
-                toValue: MARGIN*.35,
+                toValue: STARTANIMCONSTANTS.title,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(textAnim, {
-                toValue: 0,
+                toValue: STARTANIMCONSTANTS.text,
                 duration: 1000,
                 useNativeDriver: true,
             }),
@@ -55,27 +69,28 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
             }),
         ]).start()
         Keyboard.dismiss();
+        semiComeOther()
     }
 
     const comeIn = () => {
         Animated.parallel([
             Animated.timing(containerAnim, {
-                toValue: 0,
+                toValue: FINISHANIMCONSTANTS.container,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(formAnim, {
-                toValue: 0,
+                toValue: FINISHANIMCONSTANTS.form,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(titleAnim, {
-                toValue:0,
+                toValue:FINISHANIMCONSTANTS.title,
                 duration: 1000,
                 useNativeDriver: true,
             }),
             Animated.timing(textAnim, {
-                toValue: MARGIN,
+                toValue: FINISHANIMCONSTANTS.text,
                 duration: 1000,
                 useNativeDriver: true,
             }),
@@ -85,12 +100,12 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim}) => {
                 useNativeDriver: true,
             }),
         ]).start()
+        hideOther()
     }
-
     
     
   return (
-      <View style={{width:Dimensions.get('screen').width *.75}}>
+      <View style={[{width:Dimensions.get('screen').width *.75},style]}>
         <Animated.View style={[{position:'relative'}, {transform:[{translateX:containerAnim}]}]}>
             <TouchableWithoutFeedback onPress={() => {
                 if (!isIn) {
