@@ -1,7 +1,14 @@
 import { View, StyleSheet, TextInput, Dimensions } from 'react-native'
-import React, {useRef} from 'react'
+import React, {useRef, useEffect} from 'react'
 
-const CodeInput = () => {
+const CodeInput = ({isIn}) => {
+    useEffect(() => {
+        if(isIn) {
+            setTimeout(() => {
+                refs[0].current.focus();
+            }, 1000)
+        }
+    },[isIn])
     const refs = Array(6).fill().map(() => useRef());
   return (
     <View style={styles.container}>

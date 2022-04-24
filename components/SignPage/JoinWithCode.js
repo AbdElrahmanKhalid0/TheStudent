@@ -133,7 +133,9 @@ const JoinWithCode = ({style, containerAnim, welcomeAnim, setBackBtnJoinFnc, set
                     </Animated.View>
 
                     <Animated.View style={[styles.form, {transform:[{translateX:formAnim}]}]}>
-                        <CodeInput />
+                        <CodeInput 
+                            isIn={isIn}
+                        />
 
                         <TouchableOpacity style={styles.submitBtn}>
                             <AntDesign name='arrowright' color='#2bc0ff' size={30} />

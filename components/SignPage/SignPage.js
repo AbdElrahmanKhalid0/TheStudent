@@ -6,7 +6,8 @@ import JoinWithCode from './JoinWithCode';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
-
+// #FIXME: when clicking on the left side of the two components (sign in,
+//  join with code) on android it doesn't work
 const SignPage = () => {
 
     const MARGIN = Dimensions.get('window').width/2;
