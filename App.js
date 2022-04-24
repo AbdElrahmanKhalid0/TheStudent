@@ -2,7 +2,7 @@ import Home from './components/Home';
 import Block from './components/Block';
 import Subject from './components/Subject';
 import Lecture from './components/Lecture';
-import SignPage from './components/SignPage';
+import SignPage from './components/SignPage/SignPage';
 import {SafeAreaView,Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';

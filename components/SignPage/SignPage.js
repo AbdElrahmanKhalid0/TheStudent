@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated, Dimensions, Keyboar
 import React, {useRef, useState} from 'react';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
+import JoinWithCode from './JoinWithCode';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 
@@ -12,9 +13,13 @@ const SignPage = () => {
 
     const [backBtnSignInFnc, setBackBtnSignInFnc] = useState();
     const [backBtnSignUpFnc, setBackBtnSignUpFnc] = useState();
+    const [backBtnJoinFnc, setBackBtnJoinFnc] = useState();
+
+    const [welcomeWithJoin, setWelcomeWithJoin] = useState(false);
     
     const signUpContainerAnim = useRef(new Animated.Value(-MARGIN*.2)).current;
     const signInContainerAnim = useRef(new Animated.Value(MARGIN*.2)).current;
+    const joinWithCodeContainerAnim = useRef(new Animated.ValueXY({x:MARGIN*.2,y:0})).current;
 
     const signUpHideFnc = () => {
         Animated.timing(signUpContainerAnim, {
@@ -44,6 +49,20 @@ const SignPage = () => {
             useNativeDriver: true,
         }).start()
     }
+    const joinWithCodeHideFnc = () => {
+        Animated.timing(joinWithCodeContainerAnim, {
+            toValue: {x:MARGIN,y:0},
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
+    const joinWithCodeSemiComeFnc = () => {
+        Animated.timing(joinWithCodeContainerAnim, {
+            toValue: {x:MARGIN*.2,y:0},
+            duration: 1000,
+            useNativeDriver: true,
+        }).start()
+    }
 
     const welcomeAnim = useRef(new Animated.Value(0)).current;
 
@@ -51,7 +70,7 @@ const SignPage = () => {
     <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.container}>
         <Animated.View style={[styles.backBtnsContainer,{transform:[{translateX:welcomeAnim}]}]}>
             <View style={styles.backBtnContainer}>
-                <TouchableOpacity style={[styles.signUpBackBtn,styles.backBtn]} onPress={backBtnSignUpFnc}>
+                <TouchableOpacity style={[welcomeWithJoin?styles.joinBackBtn:styles.signUpBackBtn,styles.backBtn]} onPress={welcomeWithJoin?backBtnJoinFnc:backBtnSignUpFnc}>
                     <AntDesign name='arrowleft' color='white' size={30} />
                 </TouchableOpacity>
             </View>
@@ -82,23 +101,44 @@ const SignPage = () => {
                 welcomeAnim={welcomeAnim}
                 hideOther={() => {
                     signInHideFnc();
+                    joinWithCodeHideFnc();
                 }}
                 semiComeOther={() => {
                     signInSemiComeFnc();
+                    joinWithCodeSemiComeFnc();
                 }}
                 containerAnim={signUpContainerAnim}
+                setWelcomeWithJoin={setWelcomeWithJoin}
             />  
-            <SignIn 
-                setBackBtnSignInFnc={setBackBtnSignInFnc}
-                welcomeAnim={welcomeAnim}
-                hideOther={() => {
-                    signUpHideFnc();
-                }}
-                semiComeOther={() => {
-                    signUpSemiComeFnc();
-                }}
-                containerAnim={signInContainerAnim}
-            />
+            <View>
+                <SignIn 
+                    setBackBtnSignInFnc={setBackBtnSignInFnc}
+                    welcomeAnim={welcomeAnim}
+                    hideOther={() => {
+                        signUpHideFnc();
+                        joinWithCodeHideFnc();
+                    }}
+                    semiComeOther={() => {
+                        signUpSemiComeFnc();
+                        joinWithCodeSemiComeFnc();
+                    }}
+                    containerAnim={signInContainerAnim}
+                />
+                <JoinWithCode 
+                    containerAnim={joinWithCodeContainerAnim}
+                    welcomeAnim={welcomeAnim}
+                    setBackBtnJoinFnc={setBackBtnJoinFnc}
+                    setWelcomeWithJoin={setWelcomeWithJoin}
+                    hideOther={() => {
+                        signUpHideFnc();
+                        signInHideFnc();
+                    }}
+                    semiComeOther={() => {
+                        signUpSemiComeFnc();
+                        signInSemiComeFnc();
+                    }}
+                />
+            </View>
         </View>
     </KeyboardAvoidingView>
   )
@@ -125,6 +165,9 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginVertical: 15,
+    },
+    joinBackBtn: {
+        backgroundColor: '#E8630A',
     },
     signInBackBtn: {
         backgroundColor: '#2bc0ff',
