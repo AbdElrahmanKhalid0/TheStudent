@@ -116,7 +116,7 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim, style, hideOther, semiComeOth
     
     
   return (
-      <View style={[{width:Dimensions.get('screen').width *.75},style]}>
+    //   <View style={[{width:Dimensions.get('screen').width *.75,zIndex:-10},style]}>
         <Animated.View style={[{position:'relative'}, {transform:[{translateX:containerAnim}]}]}>
             <TouchableWithoutFeedback onPress={() => {
                 if (!isIn) {
@@ -185,7 +185,7 @@ const SignUp = ({setBackBtnSignUpFnc, welcomeAnim, style, hideOther, semiComeOth
                 </View>
             </TouchableWithoutFeedback>
         </Animated.View>
-    </View>
+    // </View>
   )
 }
 

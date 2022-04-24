@@ -105,6 +105,7 @@ const JoinWithCode = ({style, containerAnim, welcomeAnim, setBackBtnJoinFnc, set
             }),
         ]).start()
         semiComeOther();
+        Keyboard.dismiss();
     }
 
 

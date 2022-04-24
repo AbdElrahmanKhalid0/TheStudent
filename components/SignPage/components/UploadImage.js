@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, Text, Modal, Alert } from 'react-native'
+import { View, TouchableOpacity, StyleSheet, Text, Modal, Alert, Keyboard } from 'react-native'
 import React, {useState} from 'react'
 import Entypo from 'react-native-vector-icons/Entypo';
 import * as ImagePicker from 'expo-image-picker';
@@ -43,7 +43,10 @@ const UploadImage = ({text, setImage, image}) => {
 
   return (
       <View>
-          <TouchableOpacity style={styles.container} onPress={() => {setModalVisible(true)}}>
+          <TouchableOpacity style={styles.container} onPress={() => {
+              setModalVisible(true)
+              Keyboard.dismiss();
+            }}>
             <Text>{text}</Text>
             {image && <Entypo name='check' color='black' size={12} style={{position:'absolute',right:0,bottom:0,margin:2}}/>}
           </TouchableOpacity>

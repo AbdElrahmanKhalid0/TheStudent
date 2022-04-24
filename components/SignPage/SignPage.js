@@ -110,7 +110,7 @@ const SignPage = () => {
                 containerAnim={signUpContainerAnim}
                 setWelcomeWithJoin={setWelcomeWithJoin}
             />  
-            <View>
+            <View style={{zIndex:-100}}>
                 <SignIn 
                     setBackBtnSignInFnc={setBackBtnSignInFnc}
                     welcomeAnim={welcomeAnim}
