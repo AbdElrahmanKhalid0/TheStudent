@@ -1,7 +1,5 @@
 import { View, Animated, StyleSheet, Dimensions } from 'react-native'
-import React, {useRef, useEffect} from 'react'
-
-const colors = ['#796fe2','#b75741','#82b379','#1e458a'];
+import React from 'react'
 
 const CurrentPageIndicator = ({scrollX}) => {
 
