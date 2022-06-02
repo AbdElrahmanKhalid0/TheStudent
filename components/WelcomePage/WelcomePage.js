@@ -85,7 +85,7 @@ const WelcomePage = () => {
           <Content />
         </ScrollView>
 
-          <CurrentPageIndicator scrollX={scrollX}/>
+          <CurrentPageIndicator scroll={scrollX} pagesNumber={4} bgEnabled={true} pageWidth={Dimensions.get('window').width}/>
 
         <TouchableOpacity activeOpacity={.7} onPress={previousView}>
             <Animated.View style={[styles.previousBtn, {opacity:prevBtnOpacity, backgroundColor}]}>

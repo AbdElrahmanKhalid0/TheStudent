@@ -1,32 +1,32 @@
 import { View, Animated, StyleSheet, Dimensions } from 'react-native'
 import React from 'react'
 
-const CurrentPageIndicator = ({scrollX}) => {
+const CurrentPageIndicator = ({scroll, pagesNumber, bgEnabled, pageWidth, pageHeight, indicatorContainerStyles, dotsColor}) => {
 
-    const { width: windowWidth } = Dimensions.get('window');
+    const indicator = pageWidth ? pageWidth : pageHeight
     
   return (
-    <View style={styles.indicatorContainer}>
-        {Array(4).fill().map((_, index) => {
-            const width = scrollX.interpolate({
+    <View style={[styles.indicatorContainer, {flexDirection: pageHeight ? 'column' : 'row'}, indicatorContainerStyles]}>
+        {Array(pagesNumber).fill().map((_, index) => {
+            const indicatorOutput = scroll.interpolate({
                 inputRange: [
-                    windowWidth * (index - 1),
-                    windowWidth * index,
-                    windowWidth * (index + 1)
+                    indicator * (index - 1),
+                    indicator * index,
+                    indicator * (index + 1)
                 ],
                 outputRange: [8, 16, 8],
                 extrapolate: "clamp"
             });
 
-            const backgroundColor = scrollX.interpolate({
-                inputRange:[0, windowWidth, windowWidth*2, windowWidth*3],
+            const backgroundColor = scroll.interpolate({
+                inputRange:[0, indicator, indicator*2, indicator*3],
                 outputRange: ['#796fe2','#b75741','#82b379','#1e458a'],
             })
 
             return (
                 <Animated.View
                     key={index}
-                    style={[styles.normalDot, { width, backgroundColor }]}
+                    style={[styles.normalDot, { width: pageWidth ? indicatorOutput : 8, height: pageHeight ? indicatorOutput : 8, backgroundColor: bgEnabled ? backgroundColor : dotsColor ? dotsColor : 'black' }]}
                 />
             );
         })}
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         width: 8,
         borderRadius: 4,
         backgroundColor: "silver",
-        marginHorizontal: 4
+        margin: 4
       },
       indicatorContainer: {
         // just sitting a width in order to be able to center it with position absolute
