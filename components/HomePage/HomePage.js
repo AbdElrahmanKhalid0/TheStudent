@@ -3,6 +3,7 @@ import React from 'react'
 import UpperMenu from './components/UpperMenu';
 import CourseInProgress from './components/CourseInProgress';
 import ProminentPosts from './components/ProminentPosts';
+import Progress from './components/Progress';
 
 const HomePage = () => {
   return (
@@ -10,6 +11,7 @@ const HomePage = () => {
       <UpperMenu />
       <CourseInProgress />
       <ProminentPosts />
+      <Progress />
     </View>
   )
 }
