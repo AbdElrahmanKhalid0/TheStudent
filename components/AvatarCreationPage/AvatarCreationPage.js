@@ -1,47 +1,47 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Dimensions } from 'react-native'
-import React, {useState, useEffect} from 'react'
+import { View, Text, StyleSheet, Image, Dimensions  } from 'react-native'
+import React, {useState,useEffect} from 'react'
+import ObjectsSlider from './components/ObjectsSlider'
 import {IP} from '../../utils/constants';
 
 
 const AvatarCreationPage = () => {
-  const [imgs, setImgs] = useState()
-
-  useEffect(() => {
-    fetch(`http://${IP}:5000/avatars/`)
-      .then(res => res.json())
-      .then(res => {
-        setImgs(res.avatars)
-      })
-  }, [])
   
-  const [currentImg, setCurrentImg] = useState();
+  const [currentHair, setCurrentHair] = useState("cookie.png");
+  const [currentEyes, setCurrentEyes] = useState("brown.png");
+  const [currentBrows, setCurrentBrows] = useState("1.png");
+  const [currentNose, setCurrentNose] = useState("1.png");
+  const [currentLips, setCurrentLips] = useState("1.png");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Choose your Avatar:</Text>
+      <Image 
+        source={require("../../assets/AvatarCreationPage/createYourAvatar.jpg")}
+        style={styles.mainText}
+      />
       <View>
-        {currentImg ? (<Image 
-          source={{uri:currentImg}}
-          style={styles.mainImg}
-        />) : (
-          <View style={[styles.imgPlaceHolder, styles.mainImg]}>
-            <Text style={{color:'white'}}>please choose an avatar</Text>
-          </View>
-        )}
-        <ScrollView horizontal style={styles.scrollList}>
-          {imgs && imgs.map((img,index) => (
-              <TouchableOpacity key={index} onPress={() => {
-                setCurrentImg(`http://${IP}:5000/avatar/${img}`)
-              }}>
-                <Image source={{uri:`http://${IP}:5000/avatar/${img}`}} style={styles.img}/>
-              </TouchableOpacity>
-          )
-          )}
-        </ScrollView>
+        <Image 
+          source={{uri:`http://${IP}:5000/avatars/TypicalGuy/hair/${currentHair}`}}
+          style={styles.face}
+          resizeMode={'contain'}
+        />
+        <Image 
+          source={{uri:`http://${IP}:5000/avatars/TypicalGuy/eyes/${currentEyes}`}}
+          style={styles.eye}
+        />
+        <Image 
+          source={{uri:`http://${IP}:5000/avatars/TypicalGuy/brows/${currentBrows}`}}
+          style={styles.brows}
+        />
+        <Image 
+          source={{uri:`http://${IP}:5000/avatars/TypicalGuy/nose/${currentNose}`}}
+          style={styles.nose}
+        />
+        <Image 
+          source={{uri:`http://${IP}:5000/avatars/TypicalGuy/lips/${currentLips}`}}
+          style={styles.lips}
+        />
       </View>
-      <TouchableOpacity style={styles.nextBtn}>
-        <Text style={{color:'white', fontSize:20}}>Next</Text>
-      </TouchableOpacity>
+      <ObjectsSlider setCurrentHair={setCurrentHair} setCurrentBrows={setCurrentBrows} setCurrentLips={setCurrentLips} setCurrentEyes={setCurrentEyes} setCurrentNose={setCurrentNose}/>
     </View>
   )
 }
@@ -49,43 +49,47 @@ const AvatarCreationPage = () => {
 export default AvatarCreationPage;
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "white",
-        flex:1,
-        justifyContent:'center',
-    },
-    img: {
-        height: 200,
-        width: 200,
-        borderRadius:100,
-        margin:2
-      },
-    mainImg: {
-      height: Dimensions.get('window').width-40,
-      width: Dimensions.get('window').width-40,
-      borderRadius:(Dimensions.get('window').width-40)/2,
-      marginHorizontal:20,
-      marginBottom:50
-    },
-    header: {
-      alignSelf:'center',
-      fontSize:30,
-      marginBottom:50
-    },
-    nextBtn: {
-      width:100,
-      height:30,
-      borderRadius:20,
-      backgroundColor:'black',
-      alignItems:'center',
-      justifyContent:'center',
-      alignSelf:'flex-end',
-      marginRight:20,
-      marginTop:40
-    },
-    imgPlaceHolder: {
-      backgroundColor: '#8f8f8f',
-      alignItems:'center',
-      justifyContent:'center'
-    }
+  container: {
+    backgroundColor: "white",
+    flex:1,
+    alignItems:'center',
+  },
+  mainText: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width * 605 / 1220,
+  },
+  face: {
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width,
+  },
+  eye: {
+    width: Dimensions.get('window').width *.5,
+    height: 50,
+    position:'absolute',
+    left: Dimensions.get('window').width * .25,
+    top: Dimensions.get('window').width *.33,
+    transform: [{scale:1.1}]
+  },
+  brows: {
+    width: Dimensions.get('window').width *.5,
+    height: 50,
+    position:'absolute',
+    left: Dimensions.get('window').width * .24,
+    top: Dimensions.get('window').width *.25,
+  },
+  nose: {
+    width: Dimensions.get('window').width *.2,
+    height: 300 * Dimensions.get('window').width *.2 / 464,
+    position: 'absolute',
+    left: Dimensions.get('window').width *.4,
+    top: Dimensions.get('window').width *.46
+  },
+  lips: {
+    width: Dimensions.get('window').width *.5,
+    height: Dimensions.get('window').width *.5 * 500 / 604,
+    position: 'absolute',
+    left: Dimensions.get('window').width *.25,
+    top: Dimensions.get('window').width *.43,
+    transform: [{scale:.6}]
+  }
 })
