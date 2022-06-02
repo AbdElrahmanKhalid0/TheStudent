@@ -5,6 +5,8 @@ import {IP} from '../../utils/constants';
 
 
 const AvatarCreationPage = () => {
+  // TODO: Add The other characters/avatars in another page and make each one goes to this
+  // page making it dynamic to each character
   
   const [currentHair, setCurrentHair] = useState("cookie.png");
   const [currentEyes, setCurrentEyes] = useState("brown.png");
