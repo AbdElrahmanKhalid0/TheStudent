@@ -18,7 +18,7 @@ const DayProgress = ({activeDay, index, setActiveDay, day, duration, maxDuration
             setActiveDay(index)
         }}>
             <View style={styles.barContainer}>
-                <View style={[styles.bar,{backgroundColor: infoVisible ? "#337d5c" : "#cccaca", height:115*duration/maxDuration}]}/>
+                <View style={[styles.bar,{backgroundColor: infoVisible ? "#337d5c" : "#cccaca", height:70*duration/maxDuration}]}/>
             </View>
             <View style={styles.txtContainer}><Text style={styles.txt}>{day}</Text></View>
             {infoVisible && (
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-end'
     },
     barContainer: {
-        height:115,
+        height:70,
         justifyContent:"flex-end"
     },
     bar: {
@@ -50,10 +50,10 @@ const styles = StyleSheet.create({
     },
     line: {
         width:2,
-        height:140,
+        height:70,
         backgroundColor:'black',
         position:'absolute',
-        top:10,
+        top:0,
         zIndex:-1
     },
     txtContainer: {
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     },
     durationContainer: {
         position:'absolute',
-        top:-10,
+        top:-20,
         width:100,
         left:-3
     },

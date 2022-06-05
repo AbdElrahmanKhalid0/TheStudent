@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
     daysContainer: {
         width:"97%",
-        height:"50%",
+        height:"40%",
         alignSelf:'center',
         backgroundColor:'white',
         shadowColor: "#000",
@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
         shadowRadius: 5,
         borderRadius:20,
         padding: 20,
-        flexDirection:'row'
+        flexDirection:'row',
+        marginTop:4
     },
 })

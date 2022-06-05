@@ -12,6 +12,7 @@ const HomePage = () => {
       <CourseInProgress />
       <ProminentPosts />
       <Progress />
+      {/* TODO: bottom Navigation Bar */}
     </View>
   )
 }

@@ -24,7 +24,7 @@ const PostsContainer = () => {
                 scrollEventThrottle={1}
                 >
                     {posts.map((post, index) => (
-                        <TouchableOpacity activeOpacity={0.5}>
+                        <TouchableOpacity activeOpacity={0.5} key={index}>
                             <View style={[styles.post]}>
                                 <Text style={{fontSize:20}}>{post}</Text>
                             </View>
