@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     avatarContainer: {
         width:60,
         height:60,
-        backgroundColor:'#f5a742',
+        backgroundColor:'#ffd21d',
         borderRadius:35,
         marginRight:5,
     },
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         height:10,
         width:10,
         borderRadius:5,
-        backgroundColor:'#f5a742',
+        backgroundColor:'#ffd21d',
         position:'absolute',
         top:3,
         right:3
