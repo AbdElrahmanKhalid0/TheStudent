@@ -1,14 +1,14 @@
-import { View, Text, StyleSheet, ScrollView, Animated, TouchableOpacity } from 'react-native'
-import React, {useRef} from 'react'
+import { View, StyleSheet, Text, ScrollView, Animated, TouchableOpacity } from 'react-native'
+import React, {useRef,} from 'react'
 import CurrentPageIndicator from '../../WelcomePage/components/CurrentPageIndicator'
 
 const posts = ["Hey, There is a change in the exams date please be aware of it",
                "I have a real problem with pathology, I can't understand a ....",
                "Unpopular Opinion: Pharmacology is amazing",
-               "This can't be more complicated"
+               "This can't be more complicated",
 ]
 
-const PostsContainer = () => {
+const PostsContainer = ({navigation}) => {
     const scrollY = useRef(new Animated.Value(0)).current;
 
   return (
@@ -23,15 +23,19 @@ const PostsContainer = () => {
                 }}
                 scrollEventThrottle={1}
                 >
-                    {posts.map((post, index) => (
-                        <TouchableOpacity activeOpacity={0.5} key={index}>
-                            <View style={[styles.post]}>
-                                <Text style={{fontSize:20}}>{post}</Text>
-                            </View>
-                        </TouchableOpacity>
-                    ))}
+                    {posts.map((post, index) => {
+
+                        return (
+                            <TouchableOpacity activeOpacity={0.5} key={index} onPress={() => {
+                                navigation.navigate('ProminentPost', {post})
+                            }}>
+                                <View style={[styles.post]}>
+                                    <Text style={{fontSize:20}}>{post}</Text>
+                                </View>
+                            </TouchableOpacity>)
+                    })}
             </ScrollView>
-            <CurrentPageIndicator scroll={scrollY} pagesNumber={4} pageHeight={90} indicatorContainerStyles={styles.indicatorContainerStyles} dotsColor='#d6d6d6'/>
+            <CurrentPageIndicator scroll={scrollY} pagesNumber={posts.length} pageHeight={90} indicatorContainerStyles={styles.indicatorContainerStyles} dotsColor='#d6d6d6'/>
         </View>
     </View>
   )
@@ -59,14 +63,14 @@ const styles = StyleSheet.create({
         height:90,
         width:'95%',
     },
+    indicatorContainerStyles: {
+        top:'50%',
+        right:0,
+        width:'65%'
+    },
     post: {
         padding:10,
         height:90,
         justifyContent:'center'
     },
-    indicatorContainerStyles: {
-        top:'50%',
-        right:0,
-        width:'65%'
-    }
 })

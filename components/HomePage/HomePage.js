@@ -5,14 +5,13 @@ import CourseInProgress from './components/CourseInProgress';
 import ProminentPosts from './components/ProminentPosts';
 import Progress from './components/Progress';
 
-const HomePage = () => {
+const HomePage = ({navigation}) => {
   return (
     <View style={styles.container}>
       <UpperMenu />
       <CourseInProgress />
-      <ProminentPosts />
+      <ProminentPosts navigation={navigation}/>
       <Progress />
-      {/* TODO: bottom Navigation Bar */}
     </View>
   )
 }

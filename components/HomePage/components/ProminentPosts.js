@@ -2,11 +2,11 @@ import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import PostsContainer from './PostsContainer';
 
-const ProminentPosts = () => {
+const ProminentPosts = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.mainTxt}>Prominent Posts</Text>
-      <PostsContainer />
+      <PostsContainer navigation={navigation}/>
     </View>
   )
 }
